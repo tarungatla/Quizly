@@ -1,8 +1,9 @@
-import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import { AuthProvider, useAuth } from './context/AuthContext';
+import Navbar from './components/Navbar';
 import Login from './components/Login';
+import Register from './components/Register';
 import Dashboard from './components/Dashboard';
-import AdminLayout from './components/admin/AdminLayout';
 import AddCategory from './components/admin/AddCategory';
 import AddQuiz from './components/admin/AddQuiz';
 import AddQuestion from './components/admin/AddQuestion';
@@ -15,99 +16,111 @@ const PrivateRoute = ({ children }) => {
   return token ? children : <Navigate to="/login" />;
 };
 
-const AdminRoute = ({ children }) => {
-  const { token } = useAuth();
-  if (!token) return <Navigate to="/login" />;
-  return <AdminLayout>{children}</AdminLayout>;
+// Component to conditionally render navbar
+const AppContent = () => {
+  const location = useLocation();
+  
+  // Show navbar on all pages (remove this line if you want to hide it on specific pages)
+  const hideNavbar = false;
+
+  return (
+    <>
+      {!hideNavbar && <Navbar />}
+      <Routes>
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
+        <Route
+          path="/dashboard"
+          element={
+            <PrivateRoute>
+              <UserDashboard />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/quiz/:quizId"
+          element={
+            <PrivateRoute>
+              <TakeQuiz />
+            </PrivateRoute>
+          }
+        />
+
+        {/* Admin Routes */}
+        <Route
+          path="/admin"
+          element={
+            <PrivateRoute>
+              <Dashboard />
+            </PrivateRoute>
+          }
+        />
+        
+        {/* Category Management Routes */}
+        <Route
+          path="/admin/categories"
+          element={
+            <PrivateRoute>
+              <ViewCategories />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/admin/category/:categoryId/quizzes"
+          element={
+            <PrivateRoute>
+              <CategoryQuizzes />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/admin/quiz/:quizId/questions"
+          element={
+            <PrivateRoute>
+              <QuizQuestions />
+            </PrivateRoute>
+          }
+        />
+        
+        {/* Original Admin Routes */}
+        <Route
+          path="/admin/add-category"
+          element={
+            <PrivateRoute>
+              <AddCategory />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/admin/add-quiz"
+          element={
+            <PrivateRoute>
+              <AddQuiz />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/admin/add-question/:quizId"
+          element={
+            <PrivateRoute>
+              <AddQuestion />
+            </PrivateRoute>
+          }
+        />
+
+        <Route path="/" element={<Navigate to="/login" />} />
+      </Routes>
+    </>
+  );
 };
 
 const App = () => {
   return (
     <AuthProvider>
       <Router>
-        <Routes>
-          <Route path="/login" element={<Login />} />
-          <Route
-            path="/dashboard"
-            element={
-              <PrivateRoute>
-                <UserDashboard />
-              </PrivateRoute>
-            }
-          />
-          <Route
-            path="/quiz/:quizId"
-            element={
-              <PrivateRoute>
-                <TakeQuiz />
-              </PrivateRoute>
-            }
-          />
-
-          {/* Admin Routes */}
-          <Route
-            path="/admin"
-            element={
-              <AdminRoute>
-                <Dashboard />
-              </AdminRoute>
-            }
-          />
-          
-          {/* Category Management Routes */}
-          <Route
-            path="/admin/categories"
-            element={
-              <AdminRoute>
-                <ViewCategories />
-              </AdminRoute>
-            }
-          />
-          <Route
-            path="/admin/category/:categoryId/quizzes"
-            element={
-              <AdminRoute>
-                <CategoryQuizzes />
-              </AdminRoute>
-            }
-          />
-          <Route
-            path="/admin/quiz/:quizId/questions"
-            element={
-              <AdminRoute>
-                <QuizQuestions />
-              </AdminRoute>
-            }
-          />
-          
-          {/* Original Admin Routes */}
-          <Route
-            path="/admin/add-category"
-            element={
-              <AdminRoute>
-                <AddCategory />
-              </AdminRoute>
-            }
-          />
-          <Route
-            path="/admin/add-quiz"
-            element={
-              <AdminRoute>
-                <AddQuiz />
-              </AdminRoute>
-            }
-          />
-          <Route
-            path="/admin/add-question/:quizId"
-            element={
-              <AdminRoute>
-                <AddQuestion />
-              </AdminRoute>
-            }
-          />
-
-          <Route path="/" element={<Navigate to="/login" />} />
-        </Routes>
+        <div className="min-h-screen bg-gray-50">
+          <AppContent />
+        </div>
       </Router>
     </AuthProvider>
   );

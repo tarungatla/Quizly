@@ -27,15 +27,6 @@ const Dashboard = () => {
     <div className="min-h-screen flex bg-gradient-to-br from-indigo-50 via-white to-blue-50">
       {/* Sidebar */}
       <aside className="w-72 bg-white shadow-xl border-r border-gray-200">
-        <div className="p-6 border-b border-gray-200">
-          <div className="flex items-center space-x-3">
-            <div className="w-10 h-10 bg-gradient-to-r from-indigo-600 to-purple-600 rounded-lg flex items-center justify-center">
-              <span className="text-white font-bold text-lg">📖</span>
-            </div>
-            <h2 className="text-xl font-bold text-gray-800">Exam Portal</h2>
-          </div>
-        </div>
-        
         <nav className="pt-6 px-4 space-y-2">
 
 
@@ -113,7 +104,7 @@ const Dashboard = () => {
               <div className="text-white">
                 <h2 className="text-2xl font-bold">{`${user.firstName} ${user.lastName || ''}`}</h2>
                 <p className="text-indigo-100 text-sm">
-                  {user.userRoles?.[0]?.role?.roleName || 'ADMIN'} • {user.userId || 'EXAM' + user.id}
+                  {user.userRoles?.[0]?.role?.roleName || 'ADMIN'}
                 </p>
               </div>
             </div>
@@ -133,14 +124,8 @@ const Dashboard = () => {
                     <span className="text-gray-600 font-medium">Username</span>
                     <span className="text-gray-800 font-semibold">{user.username}</span>
                   </div>
-                  <div className="flex justify-between py-3 border-b border-gray-100">
-                    <span className="text-gray-600 font-medium">User ID</span>
-                    <span className="text-gray-800 font-semibold">{user.userId || 'EXAM' + user.id}</span>
-                  </div>
-                  <div className="flex justify-between py-3 border-b border-gray-100">
-                    <span className="text-gray-600 font-medium">Phone</span>
-                    <span className="text-gray-800 font-semibold">{user.phone}</span>
-                  </div>
+
+
                   <div className="flex justify-between py-3 border-b border-gray-100">
                     <span className="text-gray-600 font-medium">Role</span>
                     <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-indigo-100 text-indigo-800">
@@ -193,20 +178,7 @@ const Dashboard = () => {
                     </div>
                   </Link>
 
-                  <Link 
-                    to="/dashboard"
-                    className="block p-4 bg-gradient-to-r from-purple-50 to-pink-50 rounded-xl hover:from-purple-100 hover:to-pink-100 transition-all duration-200 border border-purple-200 hover:border-purple-300"
-                  >
-                    <div className="flex items-center space-x-3">
-                      <div className="w-10 h-10 bg-purple-500 rounded-lg flex items-center justify-center">
-                        <FaUserGraduate className="text-white" />
-                      </div>
-                      <div>
-                        <p className="font-semibold text-purple-800">User Dashboard</p>
-                        <p className="text-sm text-purple-600">Switch to user view</p>
-                      </div>
-                    </div>
-                  </Link>
+  
                 </div>
               </div>
             </div>
