@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useAuth } from '../../context/AuthContext';
+import { AlertCircle, CheckCircle } from 'lucide-react';
 
 const AddQuiz = () => {
   const [title, setTitle] = useState('');
@@ -20,9 +21,7 @@ const AddQuiz = () => {
   const fetchCategories = async () => {
     try {
       const response = await fetch('http://localhost:8080/category/', {
-        headers: {
-          'Authorization': `Bearer ${token}`
-        }
+        headers: { 'Authorization': `Bearer ${token}` },
       });
       if (response.ok) {
         const data = await response.json();
@@ -48,7 +47,7 @@ const AddQuiz = () => {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`
+          'Authorization': `Bearer ${token}`,
         },
         body: JSON.stringify({
           title,
@@ -56,7 +55,7 @@ const AddQuiz = () => {
           maxMarks,
           noOfQuestions,
           active,
-          category: { cid: categoryId }
+          category: { cid: categoryId },
         }),
       });
 
@@ -77,115 +76,133 @@ const AddQuiz = () => {
   };
 
   return (
-    <div className="bg-white shadow rounded-lg p-6">
-      <h2 className="text-2xl font-bold mb-4">Add New Quiz</h2>
-      <form onSubmit={handleSubmit} className="space-y-4">
-        <div>
-          <label htmlFor="title" className="block text-sm font-medium text-gray-700">
-            Title
-          </label>
-          <input
-            type="text"
-            id="title"
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
-            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-            required
-          />
+    <div className="max-w-3xl mx-auto px-6 py-10">
+      <div className="bg-white shadow-xl rounded-2xl p-8 space-y-6">
+        <div className="text-center">
+          <h2 className="text-3xl font-bold text-gray-800">Add New Quiz</h2>
+          <p className="text-gray-500 mt-2">Enter the details to create a new quiz</p>
         </div>
 
-        <div>
-          <label htmlFor="description" className="block text-sm font-medium text-gray-700">
-            Description
-          </label>
-          <textarea
-            id="description"
-            value={description}
-            onChange={(e) => setDescription(e.target.value)}
-            rows={4}
-            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-            required
-          />
-        </div>
+        <form onSubmit={handleSubmit} className="space-y-5">
+          <div>
+            <label htmlFor="title" className="block text-sm font-semibold text-gray-700 mb-1">
+              Quiz Title
+            </label>
+            <input
+              type="text"
+              id="title"
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
+              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:outline-none"
+              placeholder="Enter quiz title"
+              required
+            />
+          </div>
 
-        <div>
-          <label htmlFor="maxMarks" className="block text-sm font-medium text-gray-700">
-            Maximum Marks
-          </label>
-          <input
-            type="number"
-            id="maxMarks"
-            value={maxMarks}
-            onChange={(e) => setMaxMarks(e.target.value)}
-            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-            required
-          />
-        </div>
+          <div>
+            <label htmlFor="description" className="block text-sm font-semibold text-gray-700 mb-1">
+              Description
+            </label>
+            <textarea
+              id="description"
+              value={description}
+              onChange={(e) => setDescription(e.target.value)}
+              rows={4}
+              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:outline-none"
+              placeholder="Describe the quiz"
+              required
+            />
+          </div>
 
-        <div>
-          <label htmlFor="noOfQuestions" className="block text-sm font-medium text-gray-700">
-            Number of Questions
-          </label>
-          <input
-            type="number"
-            id="noOfQuestions"
-            value={noOfQuestions}
-            onChange={(e) => setNoOfQuestions(e.target.value)}
-            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-            required
-          />
-        </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <label htmlFor="maxMarks" className="block text-sm font-semibold text-gray-700 mb-1">
+                Maximum Marks
+              </label>
+              <input
+                type="number"
+                id="maxMarks"
+                value={maxMarks}
+                onChange={(e) => setMaxMarks(e.target.value)}
+                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:outline-none"
+                placeholder="e.g. 100"
+                required
+              />
+            </div>
 
-        <div>
-          <label htmlFor="category" className="block text-sm font-medium text-gray-700">
-            Category
-          </label>
-          <select
-            id="category"
-            value={categoryId}
-            onChange={(e) => setCategoryId(e.target.value)}
-            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-            required
+            <div>
+              <label htmlFor="noOfQuestions" className="block text-sm font-semibold text-gray-700 mb-1">
+                Number of Questions
+              </label>
+              <input
+                type="number"
+                id="noOfQuestions"
+                value={noOfQuestions}
+                onChange={(e) => setNoOfQuestions(e.target.value)}
+                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:outline-none"
+                placeholder="e.g. 10"
+                required
+              />
+            </div>
+          </div>
+
+          <div>
+            <label htmlFor="category" className="block text-sm font-semibold text-gray-700 mb-1">
+              Category
+            </label>
+            <select
+              id="category"
+              value={categoryId}
+              onChange={(e) => setCategoryId(e.target.value)}
+              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:outline-none"
+              required
+            >
+              <option value="">Select a category</option>
+              {categories.map((cat) => (
+                <option key={cat.cid} value={cat.cid}>
+                  {cat.title}
+                </option>
+              ))}
+            </select>
+          </div>
+
+          <div className="flex items-center gap-2">
+            <input
+              type="checkbox"
+              id="active"
+              checked={active}
+              onChange={(e) => setActive(e.target.checked)}
+              className="h-4 w-4 text-indigo-600 border-gray-300 rounded focus:ring-indigo-500"
+            />
+            <label htmlFor="active" className="text-sm text-gray-700">
+              Mark quiz as active
+            </label>
+          </div>
+
+          {error && (
+            <div className="flex items-center gap-2 text-sm text-red-600 bg-red-50 border border-red-300 rounded-md p-3">
+              <AlertCircle className="w-5 h-5" />
+              <span>{error}</span>
+            </div>
+          )}
+
+          {success && (
+            <div className="flex items-center gap-2 text-sm text-green-600 bg-green-50 border border-green-300 rounded-md p-3">
+              <CheckCircle className="w-5 h-5" />
+              <span>{success}</span>
+            </div>
+          )}
+
+          <button
+            type="submit"
+            className="w-full py-3 bg-indigo-600 hover:bg-indigo-700 text-white font-medium rounded-lg shadow-md transition duration-200 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
           >
-            <option value="">Select a category</option>
-            {categories.map((category) => (
-              <option key={category.cid} value={category.cid}>
-                {category.title}
-              </option>
-            ))}
-          </select>
-        </div>
-
-        <div className="flex items-center">
-          <input
-            type="checkbox"
-            id="active"
-            checked={active}
-            onChange={(e) => setActive(e.target.checked)}
-            className="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded"
-          />
-          <label htmlFor="active" className="ml-2 block text-sm text-gray-900">
-            Active
-          </label>
-        </div>
-
-        {error && (
-          <div className="text-red-500 text-sm">{error}</div>
-        )}
-
-        {success && (
-          <div className="text-green-500 text-sm">{success}</div>
-        )}
-
-        <button
-          type="submit"
-          className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-        >
-          Add Quiz
-        </button>
-      </form>
+            Add Quiz
+          </button>
+        </form>
+      </div>
     </div>
   );
 };
 
-export default AddQuiz; 
+export default AddQuiz;

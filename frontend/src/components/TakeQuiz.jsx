@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
-import QuizResult from './QuizResult'; // Import the QuizResult component
+import QuizResult from './QuizResult'; 
 
 // Quiz Taking Component
 const TakeQuiz = () => {
@@ -18,7 +18,7 @@ const TakeQuiz = () => {
   const [error, setError] = useState('');
   const [quizStarted, setQuizStarted] = useState(false);
   const [quizSubmitted, setQuizSubmitted] = useState(false);
-  const [quizResult, setQuizResult] = useState(null); // Add state for quiz result
+  const [quizResult, setQuizResult] = useState(null);
 
   useEffect(() => {
     fetchQuizData();
@@ -255,6 +255,65 @@ const TakeQuiz = () => {
 
   return (
     <div className="min-h-screen bg-gray-100">
+      {/* Custom CSS for proper rendering of rich content */}
+      <style jsx>{`
+        /* Ensure code blocks render properly */
+        .prose pre {
+          background-color: #f8f9fa !important;
+          border: 1px solid #e9ecef !important;
+          border-radius: 6px !important;
+          padding: 16px !important;
+          margin: 12px 0 !important;
+          font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace !important;
+          font-size: 14px !important;
+          line-height: 1.5 !important;
+          overflow-x: auto !important;
+        }
+        
+        .prose code {
+          background-color: #f8f9fa !important;
+          padding: 2px 6px !important;
+          border-radius: 3px !important;
+          font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace !important;
+          font-size: 13px !important;
+        }
+        
+        .prose pre code {
+          background-color: transparent !important;
+          padding: 0 !important;
+          border-radius: 0 !important;
+        }
+        
+        /* Better list styling */
+        .prose ul {
+          margin: 8px 0 !important;
+          padding-left: 20px !important;
+        }
+        
+        .prose li {
+          margin: 4px 0 !important;
+        }
+        
+        /* Better paragraph spacing */
+        .prose p {
+          margin: 8px 0 !important;
+        }
+        
+        /* Bold, italic, underline styling */
+        .prose strong {
+          font-weight: 600 !important;
+          color: #374151 !important;
+        }
+        
+        .prose em {
+          font-style: italic !important;
+        }
+        
+        .prose u {
+          text-decoration: underline !important;
+        }
+      `}</style>
+
       {/* Header */}
       <div className="bg-white shadow-sm border-b">
         <div className="max-w-7xl mx-auto px-4 py-4">
@@ -296,9 +355,12 @@ const TakeQuiz = () => {
           {/* Question */}
           <div className="p-6">
             <div className="mb-6">
-              <h2 className="text-xl font-semibold mb-4">
-                {currentQuestion?.content}
-              </h2>
+              {/* Rich text content rendering */}
+              <div 
+                className="text-xl font-semibold mb-4 prose prose-sm max-w-none"
+                dangerouslySetInnerHTML={{ __html: currentQuestion?.content }}
+                style={{ lineHeight: '1.6' }}
+              />
               {currentQuestion?.image && (
                 <img
                   src={currentQuestion.image}
@@ -319,7 +381,7 @@ const TakeQuiz = () => {
                 currentQuestion?.[key] && (
                   <label
                     key={key}
-                    className={`flex items-center p-4 border rounded-lg cursor-pointer transition-colors ${
+                    className={`flex items-start p-4 border rounded-lg cursor-pointer transition-colors ${
                       answers[currentQuestion.quesId] === currentQuestion[key]
                         ? 'border-indigo-500 bg-indigo-50'
                         : 'border-gray-200 hover:border-gray-300'
@@ -331,10 +393,14 @@ const TakeQuiz = () => {
                       value={currentQuestion[key]}
                       checked={answers[currentQuestion.quesId] === currentQuestion[key]}
                       onChange={(e) => handleAnswerChange(currentQuestion.quesId, e.target.value)}
-                      className="mr-3"
+                      className="mr-3 mt-1 flex-shrink-0"
                     />
-                    <span className="font-medium mr-3">{label}.</span>
-                    <span>{currentQuestion[key]}</span>
+                    <span className="font-medium mr-3 flex-shrink-0">{label}.</span>
+                    <div 
+                      className="prose prose-sm max-w-none flex-1"
+                      dangerouslySetInnerHTML={{ __html: currentQuestion[key] }}
+                      style={{ lineHeight: '1.6' }}
+                    />
                   </label>
                 )
               ))}

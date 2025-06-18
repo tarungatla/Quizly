@@ -127,7 +127,6 @@ const ViewCategories = () => {
                 
                 <div className="p-6">
                   <div className="flex items-center justify-between mb-4">
-                    <span className="text-sm text-gray-500">Category ID: {category.cid}</span>
                     <div className="flex space-x-2">
                       <button
                         onClick={() => deleteCategory(category.cid)}
@@ -456,7 +455,20 @@ const QuizQuestions = () => {
                 </div>
                 
                 <div className="mb-4">
-                  <p className="text-gray-700 font-medium mb-3">{question.content}</p>
+                  {/* Rich text content rendering */}
+                  <div 
+                    className="text-gray-700 font-medium mb-3 prose prose-sm max-w-none"
+                    dangerouslySetInnerHTML={{ __html: question.content }}
+                    style={{ lineHeight: '1.6' }}
+                  />
+                  
+                  {/* Show explanation if it exists */}
+                  {question.explanation && (
+                    <div className="mb-4 p-3 bg-blue-50 border-l-4 border-blue-400 rounded-r-lg">
+                      <h4 className="text-sm font-semibold text-blue-800 mb-1">Explanation:</h4>
+                      <p className="text-blue-700 text-sm">{question.explanation}</p>
+                    </div>
+                  )}
                   
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
                     <div className={`p-3 rounded-lg border ${
@@ -506,6 +518,65 @@ const QuizQuestions = () => {
           </div>
         )}
       </div>
+
+      {/* Custom CSS for proper rendering of rich content */}
+      <style jsx>{`
+        /* Ensure code blocks render properly */
+        .prose pre {
+          background-color: #f8f9fa !important;
+          border: 1px solid #e9ecef !important;
+          border-radius: 6px !important;
+          padding: 16px !important;
+          margin: 12px 0 !important;
+          font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace !important;
+          font-size: 14px !important;
+          line-height: 1.5 !important;
+          overflow-x: auto !important;
+        }
+        
+        .prose code {
+          background-color: #f8f9fa !important;
+          padding: 2px 6px !important;
+          border-radius: 3px !important;
+          font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace !important;
+          font-size: 13px !important;
+        }
+        
+        .prose pre code {
+          background-color: transparent !important;
+          padding: 0 !important;
+          border-radius: 0 !important;
+        }
+        
+        /* Better list styling */
+        .prose ul {
+          margin: 8px 0 !important;
+          padding-left: 20px !important;
+        }
+        
+        .prose li {
+          margin: 4px 0 !important;
+        }
+        
+        /* Better paragraph spacing */
+        .prose p {
+          margin: 8px 0 !important;
+        }
+        
+        /* Bold, italic, underline styling */
+        .prose strong {
+          font-weight: 600 !important;
+          color: #374151 !important;
+        }
+        
+        .prose em {
+          font-style: italic !important;
+        }
+        
+        .prose u {
+          text-decoration: underline !important;
+        }
+      `}</style>
     </div>
   );
 };
