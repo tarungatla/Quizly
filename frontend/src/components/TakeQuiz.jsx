@@ -20,6 +20,8 @@ const TakeQuiz = () => {
   const [quizSubmitted, setQuizSubmitted] = useState(false);
   const [quizResult, setQuizResult] = useState(null);
 
+  const baseUrl = import.meta.env.VITE_API_BASE_URL;
+
   useEffect(() => {
     fetchQuizData();
   }, [quizId]);
@@ -43,7 +45,7 @@ const TakeQuiz = () => {
   const fetchQuizData = async () => {
     try {
       // Fetch quiz details
-      const quizResponse = await fetch(`http://localhost:8080/quiz/${quizId}`, {
+      const quizResponse = await fetch(`${baseUrl}/quiz/${quizId}`, {
         headers: {
           'Authorization': `Bearer ${token}`
         }
@@ -57,7 +59,7 @@ const TakeQuiz = () => {
       setQuiz(quizData);
       
       // Fetch questions
-      const questionsResponse = await fetch(`http://localhost:8080/question/quiz/${quizId}`, {
+      const questionsResponse = await fetch(`${baseUrl}/question/quiz/${quizId}`, {
         headers: {
           'Authorization': `Bearer ${token}`
         }
@@ -112,7 +114,7 @@ const TakeQuiz = () => {
         quiz: quiz
       }));
 
-      const response = await fetch('http://localhost:8080/question/eval-quiz', {
+      const response = await fetch(`${baseUrl}/question/eval-quiz`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

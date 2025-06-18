@@ -9,6 +9,8 @@ const AddCategory = () => {
   const [success, setSuccess] = useState('');
   const { token } = useAuth();
 
+  const baseUrl = import.meta.env.VITE_API_BASE_URL;
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
@@ -20,7 +22,7 @@ const AddCategory = () => {
     }
 
     try {
-      const response = await fetch('http://localhost:8080/category/', {
+      const response = await fetch(`${baseUrl}/category/`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

@@ -10,6 +10,8 @@ const UserDashboard = () => {
   const [error, setError] = useState('');
   const { token } = useAuth();
 
+  const baseUrl = import.meta.env.VITE_API_BASE_URL;
+
   useEffect(() => {
     fetchCategories();
   }, []);
@@ -22,7 +24,7 @@ const UserDashboard = () => {
 
   const fetchCategories = async () => {
     try {
-      const response = await fetch('http://localhost:8080/category/', {
+      const response = await fetch(`${baseUrl}/category/`, {
         headers: {
           'Authorization': `Bearer ${token}`
         }
@@ -43,7 +45,7 @@ const UserDashboard = () => {
 
   const fetchQuizzes = async (category) => {
     try {
-      const response = await fetch(`http://localhost:8080/quiz/category/active/${category.cid}`, {
+      const response = await fetch(`${baseUrl}/quiz/category/active/${category.cid}`, {
         headers: {
           'Authorization': `Bearer ${token}`
         }

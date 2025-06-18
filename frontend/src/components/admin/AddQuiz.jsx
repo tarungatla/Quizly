@@ -13,6 +13,7 @@ const AddQuiz = () => {
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
   const { token } = useAuth();
+  const baseUrl = import.meta.env.VITE_API_BASE_URL;
 
   useEffect(() => {
     fetchCategories();
@@ -20,7 +21,7 @@ const AddQuiz = () => {
 
   const fetchCategories = async () => {
     try {
-      const response = await fetch('http://localhost:8080/category/', {
+      const response = await fetch(`${baseUrl}/category/`, {
         headers: { 'Authorization': `Bearer ${token}` },
       });
       if (response.ok) {
@@ -43,7 +44,7 @@ const AddQuiz = () => {
     }
 
     try {
-      const response = await fetch('http://localhost:8080/quiz/', {
+      const response = await fetch(`${baseUrl}/quiz/`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

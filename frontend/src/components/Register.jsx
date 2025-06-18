@@ -17,6 +17,8 @@ const Register = () => {
   const { login } = useAuth();
   const navigate = useNavigate();
 
+  const baseUrl = import.meta.env.VITE_API_BASE_URL;
+
   const handleChange = (e) => {
     setFormData({
       ...formData,
@@ -62,7 +64,7 @@ const Register = () => {
 
     try {
       // Register the user
-      const registerResponse = await fetch('http://localhost:8080/user/', {
+    const registerResponse = await fetch(`${baseUrl}/user/`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

@@ -10,13 +10,15 @@ const ViewCategories = () => {
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
 
+  const baseUrl = import.meta.env.VITE_API_BASE_URL;
+
   useEffect(() => {
     fetchCategories();
   }, []);
 
   const fetchCategories = async () => {
     try {
-      const response = await fetch('http://localhost:8080/category/', {
+      const response = await fetch(`${baseUrl}/category/`, {
         headers: {
           'Authorization': `Bearer ${localStorage.getItem('token')}`
         }
@@ -33,7 +35,7 @@ const ViewCategories = () => {
   const deleteCategory = async (categoryId) => {
     if (window.confirm('Are you sure you want to delete this category?')) {
       try {
-        await fetch(`http://localhost:8080/category/${categoryId}`, {
+        await fetch(`${baseUrl}/${categoryId}`, {
           method: 'DELETE',
           headers: {
             'Authorization': `Bearer ${localStorage.getItem('token')}`
@@ -164,6 +166,8 @@ const CategoryQuizzes = () => {
   const [category, setCategory] = useState(null);
   const [loading, setLoading] = useState(true);
 
+  const baseUrl = import.meta.env.VITE_API_BASE_URL;
+
   useEffect(() => {
     fetchCategoryAndQuizzes();
   }, [categoryId]);
@@ -171,7 +175,7 @@ const CategoryQuizzes = () => {
   const fetchCategoryAndQuizzes = async () => {
     try {
       // Fetch category details
-      const categoryResponse = await fetch(`http://localhost:8080/category/${categoryId}`, {
+      const categoryResponse = await fetch(`${baseUrl}/${categoryId}`, {
         headers: {
           'Authorization': `Bearer ${localStorage.getItem('token')}`
         }
@@ -180,7 +184,7 @@ const CategoryQuizzes = () => {
       setCategory(categoryData);
 
       // Fetch quizzes for this category
-      const quizzesResponse = await fetch(`http://localhost:8080/quiz/category/${categoryId}`, {
+      const quizzesResponse = await fetch(`${baseUrl}/quiz/category/${categoryId}`, {
         headers: {
           'Authorization': `Bearer ${localStorage.getItem('token')}`
         }
@@ -197,7 +201,7 @@ const CategoryQuizzes = () => {
   const deleteQuiz = async (quizId) => {
     if (window.confirm('Are you sure you want to delete this quiz?')) {
       try {
-        await fetch(`http://localhost:8080/quiz/${quizId}`, {
+        await fetch(`${baseUrl}/${quizId}`, {
           method: 'DELETE',
           headers: {
             'Authorization': `Bearer ${localStorage.getItem('token')}`
@@ -331,6 +335,7 @@ const QuizQuestions = () => {
   const [questions, setQuestions] = useState([]);
   const [quiz, setQuiz] = useState(null);
   const [loading, setLoading] = useState(true);
+  const baseUrl = import.meta.env.VITE_API_BASE_URL;
 
   useEffect(() => {
     fetchQuizAndQuestions();
@@ -339,7 +344,7 @@ const QuizQuestions = () => {
   const fetchQuizAndQuestions = async () => {
     try {
       // Fetch quiz details
-      const quizResponse = await fetch(`http://localhost:8080/quiz/${quizId}`, {
+      const quizResponse = await fetch(`${baseUrl}/${quizId}`, {
         headers: {
           'Authorization': `Bearer ${localStorage.getItem('token')}`
         }
@@ -348,7 +353,7 @@ const QuizQuestions = () => {
       setQuiz(quizData);
 
       // Fetch questions for this quiz
-      const questionsResponse = await fetch(`http://localhost:8080/question/quiz/all/${quizId}`, {
+      const questionsResponse = await fetch(`${baseUrl}/question/quiz/all/${quizId}`, {
         headers: {
           'Authorization': `Bearer ${localStorage.getItem('token')}`
         }
@@ -365,7 +370,7 @@ const QuizQuestions = () => {
   const deleteQuestion = async (questionId) => {
     if (window.confirm('Are you sure you want to delete this question?')) {
       try {
-        await fetch(`http://localhost:8080/question/${questionId}`, {
+        await fetch(`${baseUrl}/question/${questionId}`, {
           method: 'DELETE',
           headers: {
             'Authorization': `Bearer ${localStorage.getItem('token')}`

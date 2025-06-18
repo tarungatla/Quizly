@@ -5,6 +5,7 @@ const AuthContext = createContext(null);
 export const AuthProvider = ({ children }) => {
   const [token, setToken] = useState(localStorage.getItem('token'));
   const [user, setUser] = useState(null);
+  const baseUrl = import.meta.env.VITE_API_BASE_URL;
 
   useEffect(() => {
     if (token) {
@@ -19,7 +20,7 @@ export const AuthProvider = ({ children }) => {
 
   const fetchUserDetails = async () => {
     try {
-      const response = await fetch('http://localhost:8080/current-user', {
+      const response = await fetch(`${baseUrl}/current-user`, {
         headers: {
           'Authorization': `Bearer ${token}`
         }
@@ -38,7 +39,7 @@ export const AuthProvider = ({ children }) => {
 
   const login = async (username, password) => {
     try {
-      const response = await fetch('http://localhost:8080/generate-token', {
+      const response = await fetch(`${baseUrl}/generate-token`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
