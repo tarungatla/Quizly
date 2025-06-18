@@ -175,7 +175,7 @@ const CategoryQuizzes = () => {
   const fetchCategoryAndQuizzes = async () => {
     try {
       // Fetch category details
-      const categoryResponse = await fetch(`${baseUrl}/${categoryId}`, {
+      const categoryResponse = await fetch(`${baseUrl}/category/${categoryId}`, {
         headers: {
           'Authorization': `Bearer ${localStorage.getItem('token')}`
         }
@@ -344,7 +344,7 @@ const QuizQuestions = () => {
   const fetchQuizAndQuestions = async () => {
     try {
       // Fetch quiz details
-      const quizResponse = await fetch(`${baseUrl}/${quizId}`, {
+      const quizResponse = await fetch(`${baseUrl}/quiz/${quizId}`, {
         headers: {
           'Authorization': `Bearer ${localStorage.getItem('token')}`
         }
